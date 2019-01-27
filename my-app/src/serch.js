@@ -1,9 +1,8 @@
 const axios = require('axios')
-var http = require('http');
 
 const getData = async () => {
     try {
-        return await axios.get('http://mon.phuket.psu.ac.th/arubalog/2018-10-29.log')
+        return await axios.get('http://mon.phuket.psu.ac.th/arubalog/2019-01-27.log')
     }catch(error) {
         console.error(error)
     }
@@ -12,58 +11,114 @@ const getData = async () => {
 const countData = async () => {
     const data = await getData()
 
-
-    
     if (data.data){
-        var str = data.data
-        //var res = str.match(/522038/g)
+        var str = data.data //ข้อมูล
+    
+        const strr = str.toString()      
+        const lines = spln(strr) //ทำข้อมูลเป็น array โดยแบ่งจาก \n(บรรทัด)
+       
+        //console.log("StudentID : 5935512034")
 
-        // var strr = str.toString()
-        // var lines = strr.split('\n')
-         console.log("StudentID : 5935512034")
-        // var http = require('http');
-        http.createServer(function(req,res){
+        const result = matchat(lines) //เลือกข้อมูลที่มีการเชื่อมต่อ (522038) แล้วเก็บไว้เป็น array
         
-            // request.setTimeout(12000, function () {
-            //     request.abort();
-            // });
-           // var readMe = fs.readFileSync('testt2.log', 'utf-8');
-        res.writeHead(200,{'Content-type':'text/plain/log'});
-        
-        res.end(str);
-        }).listen(6000,'127.0.0.1');
-
-
-
-        
-        }
-        // for (let i = 0; i < lines.length; i++) {
-
+        //const result1 = matchap(result)
+     
+     
+        let n = (result===undefined)?0:result.length
+        var count = 0
+        for (let i = 0; i < n  ; i++) {
             
-        //     const result1 = lines.filter(lines => lines.match(/5935512034/g));
+            count += 1
+            var findap = splspace(result[i])//fibdap  เก็บค่า   แต่ละ array ที่มีชื่อและรหัสนักศึกษา ใน array นั้นๆ
+            var name =  matchname(findap)
+           
+
+            //var cutname = ''
+            //console.log(name)
             
-        //     const result = result1.filter(result1 => result1.match(/AP=/g));
-        //     const stid = 'AP='
-        //     //const indexid = result[i].lastIndexOf(stid) 
-        //     const indexspl = result[i].split(' ')
-        //     const spl = indexspl[19].split('=')
-        //     console.log("Time", result[i].substring(0, 20))
-        //     //console.log("Status : Authentication Successful")
-        //     //console.log("Student ID", result[i].substring(96, 107))
-        //     //console.log("MAC Address", result[i].substring(111, 129))
-        //     console.log("Accesspoint Name",spl[1]/*, result[i].substring(indexid+3, indexid+15)*/)
-        //     //, result[i].slice(46, 55)
-        // }
+            var cutname = (cutname===undefined)?name:cutname+name
+            console.log(cutname)
+            //
+            // //console.log("Time : ",findap[0],findap[1],findap[2],findap[3])// แสดงเวลา
 
-        // lines.map(line => {
-        //     if (!line) { return null }
-        //     result.push(Number(line))
-        // })
+            // var ix = matchap(findap) //  ix เก็บค่า ชื่อ access point
+            // var st = strxx(ix)
+            // var eq = sple(st)
 
+            // //console.log("Access point Name : ",eq[1])    
 
-
-       // console.log('user logged in : ' ,res.length)
-        //console.log('user logged in : ', res)
+            // const indexspl = splspace(result1[i])
+            // const nt = (indexspl[19]===undefined)?0:indexspl[19]         
+            // const spl = sple(nt)
+           
+            
+        } 
+        var tname = splname(cutname)
+       var sestr = selectstr(tname)
+        var srt = cntime(sestr)
+       //console.log(srt)
+        //var srt = sortt(sestr)
+        //var srt2 = cdata(srt)
+        
+        
+        console.log(count)
+    
     }
- 
+    
+}
+
+const sortt = st => st.sort()
+const selectstr = str => str.filter(str =>/\S/.test(str))
+const strxx = strx =>  { if (strx !== undefined) return strx.toString()}
+const sple = spleq => { if (spleq !== undefined) return spleq.split('=') }
+const spln = splff => { if (splff !== undefined) return splff.split('\n') }
+const splspace = spla => { if (spla !== undefined) return spla.split(' ') }
+const splname = spla => { if (spla !== undefined) return spla.split('username=') }
+const matchid = matchff => matchff.filter(matchff => matchff.match(/5935512034/g))
+const matchat = matchatt => matchatt.filter(matchatt => matchatt.match(/522038/g))
+const matchap = matchap => matchap.filter(matchap => matchap.match(/AP=/g))
+const matchname = matchn => matchn.filter(matchn => matchn.match(/username=/g))
+
+const cdata = countdata => {
+    
+    var current = null;
+    var cnt = 0;
+    for (var i = 0; i < countdata.length; i++) 
+    {
+        if (countdata[i] != current) 
+        {
+            
+            if (cnt > 0) 
+            {
+                console.log(current +' time '+ cnt)
+            }
+            current = countdata[i];
+            
+            cnt = 1;
+        } 
+        else 
+        {
+            cnt++;
+        }
+    }
+    if (cnt > 0) 
+    {
+       console.log(current +' timeeeeeeee '+ cnt)
+    }
+
+}
+
+
+
+const cntime = ctime =>{
+var  count = {}
+ ctime.forEach(function(i) { count[i] = (count[i]||0) + 1})
+ return count}
+
+
+
+
 countData()
+
+
+

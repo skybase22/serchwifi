@@ -65,14 +65,10 @@ const countData = async () => {
 
     }
     
-        var datalog = {
-        tine : [findap[0],findap[1],findap[2],findap[3]],
-        dataap : ix
-       
-    }
+        
     
 }
-console.log(datalog.tine)
+
 
 const strxx = strx =>  { if (strx !== undefined) return strx.toString()}
 const sple = spleq => { if (spleq !== undefined) return spleq.split('=') }
