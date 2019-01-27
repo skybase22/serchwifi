@@ -2,7 +2,7 @@ const axios = require('axios')
 
 const getData = async () => {
     try {
-        return await axios.get('http://mon.phuket.psu.ac.th/arubalog/2019-01-27.log')
+        return await axios.get('http://mon.phuket.psu.ac.th/arubalog/2019-01-23.log')
     }catch(error) {
         console.error(error)
     }
@@ -37,7 +37,7 @@ const countData = async () => {
             //console.log(name)
             
             var cutname = (cutname===undefined)?name:cutname+name
-            console.log(cutname)
+            //console.log(cutname)
             //
             // //console.log("Time : ",findap[0],findap[1],findap[2],findap[3])// แสดงเวลา
 
@@ -55,8 +55,11 @@ const countData = async () => {
         } 
         var tname = splname(cutname)
        var sestr = selectstr(tname)
-        var srt = cntime(sestr)
-       //console.log(srt)
+        var srt =  mapp(sestr)
+        //var srtarr = splc(srt)
+        console.log(srt)
+        var srtarr = JSON.stringify(srt)
+       //console.log(srtarr)
         //var srt = sortt(sestr)
         //var srt2 = cdata(srt)
         
@@ -72,6 +75,7 @@ const selectstr = str => str.filter(str =>/\S/.test(str))
 const strxx = strx =>  { if (strx !== undefined) return strx.toString()}
 const sple = spleq => { if (spleq !== undefined) return spleq.split('=') }
 const spln = splff => { if (splff !== undefined) return splff.split('\n') }
+const splc= splcl => { if (splcl !== undefined) return splcl.split(',') }
 const splspace = spla => { if (spla !== undefined) return spla.split(' ') }
 const splname = spla => { if (spla !== undefined) return spla.split('username=') }
 const matchid = matchff => matchff.filter(matchff => matchff.match(/5935512034/g))
@@ -111,11 +115,15 @@ const cdata = countdata => {
 
 
 const cntime = ctime =>{
-var  count = {}
- ctime.forEach(function(i) { count[i] = (count[i]||0) + 1})
+var  count = []
+ ctime.forEach(function(i) { count[i] = (count[i]||0) + 1 })
+
  return count}
 
-
+ const mapp = arr => arr.reduce(function(prev, cur){
+     prev[cur] = (prev[cur] || 0 ) + 1
+     return prev
+ },{})
 
 
 countData()
