@@ -29,7 +29,14 @@
 
 // console.log(array)
 
-uniqueCount = ["a","b","c","d","d","e","a","b","c","f","g","h","h","h","e","a"]
-var  count = {}
-uniqueCount.forEach(function(i) { count[i] = (count[i]||0) + 1})
-console.log(count)
+// uniqueCount = ["a","b","c","d","d","e","a","b","c","f","g","h","h","h","e","a"]
+// var  count = {}
+// uniqueCount.forEach(function(i) { count[i] = (count[i]||0) + 1})
+// console.log(count)
+
+var a = ["Mike","Matt","Nancy","Adam","Jenny","Nancy","Carl"];
+var uniqueNames = [];
+uniqueArray = a.filter(function(item, pos) {
+    return a.indexOf(item) == pos;
+})
+console.log(uniqueArray)

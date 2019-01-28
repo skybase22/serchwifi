@@ -2,7 +2,7 @@ const axios = require('axios')
 
 const getData = async () => {
     try {
-        return await axios.get('http://mon.phuket.psu.ac.th/arubalog/2019-01-25.log')
+        return await axios.get('http://mon.phuket.psu.ac.th/arubalog/2019-01-23.log')
     }catch(error) {
         console.error(error)
     }
@@ -30,81 +30,31 @@ const countData = async () => {
             
             count += 1
             var findap = splspace(result[i])//fibdap  เก็บค่า   แต่ละ array ที่มีชื่อและรหัสนักศึกษา ใน array นั้นๆ
-            var name =  matchname(findap) // name เก็บข้อมูล usename ทั้งหมดที่เชื่อมต่อมา
-           
-
-            //var cutname = ''
-            //console.log(name)
+            var name =  matchname(findap)
+            var cutname = (cutname===undefined)?name:cutname+name
             
-            var cutname = (cutname===undefined)?name:cutname+name// นำข้อมูล usename ทั้งหมดมาเก็บไว้เป็น string
-            //console.log(cutname) 
-            //
-            // //console.log("Time : ",findap[0],findap[1],findap[2],findap[3])// แสดงเวลา
-
-            // var ix = matchap(findap) //  ix เก็บค่า ชื่อ access point
-            // var st = strxx(ix)
-            // var eq = sple(st)
-
-            // //console.log("Access point Name : ",eq[1])    
-
-            // const indexspl = splspace(result1[i])
-            // const nt = (indexspl[19]===undefined)?0:indexspl[19]         
-            // const spl = sple(nt)
            
             
         } 
-        var tname = splname(cutname) // เก็บ ไอดี นักศึกษา เป็น  array  
-       var sestr = selectstr(tname) // กรอง '' ออก
-       var rep = repeat(sestr) // เอาเฉพาะข้อมูลที่ไม่ซ้ำ
-       //console.log(rep)
-        var srt =  mapp(sestr) // นับจำนวนครั้งตัวซ้ำ
-        //console.log(srt)
-        var person = {
-            username : [],
-            time :[] ,
-            total : 0 
-        }
+        var tname = splname(cutname)
+        var sestr = selectstr(tname)
+        var person = sestr.length
+         person = [{
+           name: '',
+           time: 0,
+           totaltime:0
+       }]
+       
+       person.name = sestr
+       person.totaltime = count
+       console.log(person.name[0])
+       
+      
+       
+        var srt =  mapp(sestr)
         //var srtarr = splc(srt)
         //console.log(srt)
-        var stc = 0
-        for(var pro in srt)
-        {
-            stc += ' '+srt[pro] // นำข้อมูลจำนวนครั้งมาเก็บใน stc
-
-        }
-       //console.log(stc)
-        var toa =intt(stc) //แปลงเป็น int
-        toa.shift()
-       // console.log(toa)
-        //var shh =  (toa.shift() === NaN)?0:toa.shift()
-        
-        //console.log(shh)
-        
-        
-        //var toa2 = selectstr(toa)
-        // var fl = []
-        // for(let i = 0 ; i< toa2.length ; i ++)
-        // {
-        //     var fl =+ Number(toa2[i])
-        // }
-       // var fl = parseFloat(toa2)
-        //console.log(fl)
-        person.username = rep
-        person.time = toa
-        person.total = count
-        var max = Math.max.apply(null, person.time) // หาค่ามากสุด
-       
-        for(var p in person.time)
-        {
-            if(person.time[p] == max)
-            console.log('max = ',person.username[p]) // หา id ที่เชื่อมต่อมากสุด
-        }
-       console.log('time',max)
-        
-        
-        
-        //console.log('maxxxxxxx',Math.max(person.time))
-        var srtarr = JSON.stringify(person)
+        var srtarr = JSON.stringify(srt)
        //console.log(srtarr)
         //var srt = sortt(sestr)
         //var srt2 = cdata(srt)
@@ -128,7 +78,7 @@ const matchid = matchff => matchff.filter(matchff => matchff.match(/5935512034/g
 const matchat = matchatt => matchatt.filter(matchatt => matchatt.match(/522038/g))
 const matchap = matchap => matchap.filter(matchap => matchap.match(/AP=/g))
 const matchname = matchn => matchn.filter(matchn => matchn.match(/username=/g))
-const sh = shit => shit.shift()
+
 const cdata = countdata => {
     
     var current = null;
@@ -171,17 +121,6 @@ var  count = []
      return prev
  },{})
 
-const repeat = re =>  re.filter(function(item, pos) {
-    return re.indexOf(item) == pos;
-})
-
-
-var intt = a => a.split(' ').map(function(item) {
-    return  parseInt(item, 10)
-})
-
-
-  
 
 countData()
 
