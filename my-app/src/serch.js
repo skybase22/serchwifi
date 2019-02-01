@@ -1,115 +1,99 @@
 const axios = require('axios')
+const split = require('./split.js')
+const match = require('./match.js')
+const findmnmx = require('./maxmin.js')
 
 const getData = async () => {
     try {
-        return await axios.get('http://mon.phuket.psu.ac.th/arubalog/2019-01-25.log')
+        return await axios.get('http://mon.phuket.psu.ac.th/arubalog/2019-01-21.log')
     }catch(error) {
         console.error(error)
     }
 }
 
 const countData = async () => {
+
     const data = await getData()
 
     if (data.data){
+
         var str = data.data //ข้อมูล
     
         const strr = str.toString()      
-        const lines = spln(strr) //ทำข้อมูลเป็น array โดยแบ่งจาก \n(บรรทัด)
+
+        const lines = split.splitn(strr) //ทำข้อมูลเป็น array โดยแบ่งจาก \n(บรรทัด)
        
         //console.log("StudentID : 5935512034")
 
-        const result = matchat(lines) //เลือกข้อมูลที่มีการเชื่อมต่อ (522038) แล้วเก็บไว้เป็น array
+        const result = match.matchat(lines) //เลือกข้อมูลที่มีการเชื่อมต่อ (522038) แล้วเก็บไว้เป็น array
         
         //const result1 = matchap(result)
      
-     
         let n = (result===undefined)?0:result.length
+
         var count = 0
+
         for (let i = 0; i < n  ; i++) {
             
             count += 1
-            var findap = splspace(result[i])//fibdap  เก็บค่า   แต่ละ array ที่มีชื่อและรหัสนักศึกษา ใน array นั้นๆ
-            var name =  matchname(findap) // name เก็บข้อมูล usename ทั้งหมดที่เชื่อมต่อมา
-           
 
-            //var cutname = ''
-            //console.log(name)
+            var findap = split.splitspace(result[i])//fibdap  เก็บค่า   แต่ละ array ที่มีชื่อและรหัสนักศึกษา ใน array นั้นๆ
+
+            var name =  match.matchname(findap) // name เก็บข้อมูล usename ทั้งหมดที่เชื่อมต่อมา
             
             var cutname = (cutname===undefined)?name:cutname+name// นำข้อมูล usename ทั้งหมดมาเก็บไว้เป็น string
-            //console.log(cutname) 
-            //
-            // //console.log("Time : ",findap[0],findap[1],findap[2],findap[3])// แสดงเวลา
-
-            // var ix = matchap(findap) //  ix เก็บค่า ชื่อ access point
-            // var st = strxx(ix)
-            // var eq = sple(st)
-
-            // //console.log("Access point Name : ",eq[1])    
-
-            // const indexspl = splspace(result1[i])
-            // const nt = (indexspl[19]===undefined)?0:indexspl[19]         
-            // const spl = sple(nt)
-           
-            
+                
         } 
-        var tname = splname(cutname) // เก็บ ไอดี นักศึกษา เป็น  array  
+        var tname = split.splitname(cutname) // เก็บ ไอดี นักศึกษา เป็น  array  
+       // console.log(tname)
        var sestr = selectstr(tname) // กรอง '' ออก
+
        var rep = repeat(sestr) // เอาเฉพาะข้อมูลที่ไม่ซ้ำ
-       //console.log(rep)
+       //console.log('repppppppppp',rep)
         var srt =  mapp(sestr) // นับจำนวนครั้งตัวซ้ำ
-        //console.log(srt)
-        var person = {
-            username : [],
-            time :[] ,
-            total : 0 
-        }
-        //var srtarr = splc(srt)
-        //console.log(srt)
+     
         var stc = 0
+        
         for(var pro in srt)
         {
             stc += ' '+srt[pro] // นำข้อมูลจำนวนครั้งมาเก็บใน stc
-
         }
        //console.log(stc)
-        var toa =intt(stc) //แปลงเป็น int
+        var toa =intt(stc) //ทำเป็น array แล้วแปลงเป็น int
+
         toa.shift()
-       // console.log(toa)
-        //var shh =  (toa.shift() === NaN)?0:toa.shift()
-        
-        //console.log(shh)
-        
-        
-        //var toa2 = selectstr(toa)
-        // var fl = []
-        // for(let i = 0 ; i< toa2.length ; i ++)
-        // {
-        //     var fl =+ Number(toa2[i])
-        // }
-       // var fl = parseFloat(toa2)
-        //console.log(fl)
-        person.username = rep
-        person.time = toa
-        person.total = count
-        var max = Math.max.apply(null, person.time) // หาค่ามากสุด
-       
-        for(var p in person.time)
+
+        var cid = 0
+
+        for(var t in toa)
         {
-            if(person.time[p] == max)
-            console.log('max = ',person.username[p]) // หา id ที่เชื่อมต่อมากสุด
+            cid += toa[t]
         }
-       console.log('time',max)
-        
-        
-        
-        //console.log('maxxxxxxx',Math.max(person.time))
-        var srtarr = JSON.stringify(person)
-       //console.log(srtarr)
-        //var srt = sortt(sestr)
-        //var srt2 = cdata(srt)
-        
-        
+        console.log('----',cid)
+    
+        var person = []
+
+        for(let na in rep)
+        {
+            person.push({username : rep[na],time : toa[na]})
+           
+        }
+        console.log(person)
+ 
+        var mnmx = findmnmx.findm(person)
+
+        console.log('minmax',mnmx) // หาค่ามากสุด
+
+        for(let max in person)
+        {
+            if(person[max].time == mnmx[1] )
+            {
+                console.log('maxxx', person[max].username)
+            }
+        }
+       
+        var srtarr = JSON.stringify(person)  
+
         console.log(count)
     
     }
@@ -119,46 +103,7 @@ const countData = async () => {
 const sortt = st => st.sort()
 const selectstr = str => str.filter(str =>/\S/.test(str))
 const strxx = strx =>  { if (strx !== undefined) return strx.toString()}
-const sple = spleq => { if (spleq !== undefined) return spleq.split('=') }
-const spln = splff => { if (splff !== undefined) return splff.split('\n') }
-const splc= splcl => { if (splcl !== undefined) return splcl.split(',') }
-const splspace = spla => { if (spla !== undefined) return spla.split(' ') }
-const splname = spla => { if (spla !== undefined) return spla.split('username=') }
-const matchid = matchff => matchff.filter(matchff => matchff.match(/5935512034/g))
-const matchat = matchatt => matchatt.filter(matchatt => matchatt.match(/522038/g))
-const matchap = matchap => matchap.filter(matchap => matchap.match(/AP=/g))
-const matchname = matchn => matchn.filter(matchn => matchn.match(/username=/g))
 const sh = shit => shit.shift()
-const cdata = countdata => {
-    
-    var current = null;
-    var cnt = 0;
-    for (var i = 0; i < countdata.length; i++) 
-    {
-        if (countdata[i] != current) 
-        {
-            
-            if (cnt > 0) 
-            {
-                console.log(current +' time '+ cnt)
-            }
-            current = countdata[i];
-            
-            cnt = 1;
-        } 
-        else 
-        {
-            cnt++;
-        }
-    }
-    if (cnt > 0) 
-    {
-       console.log(current +' timeeeeeeee '+ cnt)
-    }
-
-}
-
-
 
 const cntime = ctime =>{
 var  count = []
