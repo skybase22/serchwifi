@@ -7,14 +7,14 @@ class App extends Component {
   constructor() {
     super();
     this.state = {
-      posts: ""
+      posts: []
     };
   }
 
   componentDidMount() {
     axios
       .get(
-        "http://localhost:7777/api/getpsu"
+        "http://localhost:8080/home"
       )
       .then(res => {
         const posts = res.data.toString(obj => obj.data);
@@ -29,9 +29,7 @@ class App extends Component {
   }
 
   render() {
-    setTimeout(()=>{
-      this.setState({posts:"helooooooo"})
-    },3000);
+    
     
     return (
       <div>

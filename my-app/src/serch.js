@@ -2,14 +2,29 @@ const axios = require('axios')
 const split = require('./split.js')
 const match = require('./match.js')
 const findmnmx = require('./maxmin.js')
+const express = require('express')
+const app = express()
+const bodyParser = require('body-parser')
+const CircularJSON = require('circular-json')
+const cors = require('cors')
+app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({ extended: true }))
+app.use(cors())
+
+let stdin = process.openStdin()
+stdin.addListener("data", (d) => {
+ var a = d.toString().trim()
+var date = 'http://mon.phuket.psu.ac.th/arubalog/'+a+'.log'
 
 const getData = async () => {
     try {
-        return await axios.get('http://mon.phuket.psu.ac.th/arubalog/2019-01-21.log')
+        
+        return await axios.get(date)
     }catch(error) {
         console.error(error)
     }
 }
+
 
 const countData = async () => {
 
@@ -90,13 +105,27 @@ const countData = async () => {
             {
                 console.log('maxxx', person[max].username)
             }
+            if(person[max].time == mnmx[0] )
+            {
+                console.log('min', person[max].username)
+            }
         }
        
         var srtarr = JSON.stringify(person)  
 
-        console.log(count)
+        console.log(srtarr)
     
     }
+
+    app.get('/home',function(req,res){
+        res.json(srtarr)
+      
+    })
+    app.get('/home/max',function(req,res){
+        res.send(mnmx)
+      
+    })
+    app.listen(8080)
     
 }
 
@@ -129,6 +158,7 @@ var intt = a => a.split(' ').map(function(item) {
   
 
 countData()
-
+//stdin.destroy()
+})
 
 
