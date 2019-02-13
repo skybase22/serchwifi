@@ -17,10 +17,12 @@ class App extends Component {
         "http://localhost:8080/home"
       )
       .then(res => {
-        const posts = res.data.toString(obj => obj.data);
-        
-        this.setState({ posts });
-        //console.log(posts);
+        console.log('res.data',  res )
+        // const posts = res.data.toString(obj => obj.data);
+        const post = res.data
+        this.setState({ posts:post });
+        //console.log(this.state.posts);
+        console.log('psots1',this.state.posts[1].student);
        
       })
       .catch(error => {
@@ -29,15 +31,19 @@ class App extends Component {
   }
 
   render() {
-    
+   
     
     return (
       <div>
         
          
             <h1>fetched data</h1>
-    
-              {this.state.posts}
+            
+            <ul>
+              {this.state.posts.map( (item,index) => { 
+                return (<li key={index}>  {item.student} : {item.time} </li>)
+              })}
+            </ul>
             
          </div>
         
@@ -46,3 +52,5 @@ class App extends Component {
   }
 }
 export default App;  
+
+

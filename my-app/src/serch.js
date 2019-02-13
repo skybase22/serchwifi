@@ -66,7 +66,7 @@ const countData = async () => {
        var rep = repeat(sestr) // เอาเฉพาะข้อมูลที่ไม่ซ้ำ
        //console.log('repppppppppp',rep)
         var srt =  mapp(sestr) // นับจำนวนครั้งตัวซ้ำ
-     
+     console.log(srt)
         var stc = 0
         
         for(var pro in srt)
@@ -87,38 +87,37 @@ const countData = async () => {
         console.log('----',cid)
     
         var person = []
-
+        var person2 = {username:['a','b'],time:[]}
         for(let na in rep)
         {
-            person.push({username : rep[na],time : toa[na]})
+            person.push({student:rep[na],time: toa[na]})
            
         }
+        person2.time = toa
         console.log(person)
  
         var mnmx = findmnmx.findm(person)
 
-        console.log('minmax',mnmx) // หาค่ามากสุด
+        //console.log('minmax',mnmx) // หาค่ามากสุด
 
-        for(let max in person)
-        {
-            if(person[max].time == mnmx[1] )
-            {
-                console.log('maxxx', person[max].username)
-            }
-            if(person[max].time == mnmx[0] )
-            {
-                console.log('min', person[max].username)
-            }
-        }
-       
-        var srtarr = JSON.stringify(person)  
-
-        console.log(srtarr)
+        // for(let max in person)
+        // {
+        //     if(person[max].time == mnmx[1] )
+        //     {
+        //         console.log('maxxx', person[max].username)
+        //     }
+        //     if(person[max].time == mnmx[0] )
+        //     {
+        //         console.log('min', person[max].username)
+        //     }
+        // }
+        
     
+
     }
 
     app.get('/home',function(req,res){
-        res.json(srtarr)
+        res.json(person)
       
     })
     app.get('/home/max',function(req,res){
